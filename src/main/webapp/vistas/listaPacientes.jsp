@@ -115,7 +115,7 @@
 
                         <!-- Inicio -->
                         <li>
-                            <a href="">
+                            <a href="${pageContext.request.contextPath}/ControladorUsuario?accion=listarAdmin">
                                 <i class="fa fa-home"></i> <span>Panel Administrativo</span>
                             </a>
                         </li>
@@ -125,7 +125,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=listaPacientes">
+                            <a href="">
                                 <i class="fa fa-area-chart"></i> <span>Pacientes</span>
                             </a>
                         </li>
@@ -161,85 +161,61 @@
                 <!-- /.sidebar -->
             </aside>
 
-            <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Pagina principal
-                    </h1>
-
-                </section>
-
                 <section class="content">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-aqua">
-                                <div class="inner">
-                                    <h3>150</h3>
+                    <div class="container mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>GESTOR DE PACIENTES</h3>
+                                <hr>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalFormulario">
+                                    <i class="fa-solid fa-plus"></i>Nuevo
+                                </button>
+                                <table class="table table-bordered table-striped mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th>IDPACIENTE</th>
+                                            <th>NOMBRE</th>
+                                            <th>APELLIDO</th>
+                                            <th>DNI</th>
+                                            <th>NACIMIENTO</th>
+                                            <th>SEXO</th>
+                                            <th>TELEFONO</th>
+                                            <th>DIRECCION</th>
+                                            <th>ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${paciente}" var="item">
+                                            <tr>
+                                                <td>${item.idPaciente}</td>
+                                                <td>${item.nombre}</td>
+                                                <td>${item.apellido}</td>
+                                                <td>${item.dni}</td>
+                                                <td>${item.nacimiento}</td>
+                                                <td>${item.sexo}</td>
+                                                <td>${item.telefono}</td>
+                                                <td>${item.direccion}</td>
+                                                <td>
+                                                    <a href="" class="btn-info btn-sm"> 
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-danger btn-sm"> 
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
 
-                                    <p>Nuevos Clientes</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-bag"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-green">
-                                <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                                    <p>Bounce Rate</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-yellow">
-                                <div class="inner">
-                                    <h3>44</h3>
-
-                                    <p>User Registrations</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-red">
-                                <div class="inner">
-                                    <h3>65</h3>
-
-                                    <p>Unique Visitors</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
                     </div>
+
                 </section>
                 <!-- /.content -->
             </div>
-            <!-- /.content-wrapper -->
-
             <!-- Main Footer -->
             <footer class="main-footer">
                 <!-- To the right -->

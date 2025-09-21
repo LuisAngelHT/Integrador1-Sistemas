@@ -164,8 +164,6 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-
-
                 <section class="content">
                     <div class="container mt-3">
                         <div class="card">
@@ -287,7 +285,7 @@
 </html>
 <%
     } else {
-        response.sendRedirect("identificar.jsp");
+        response.sendRedirect("vistaLogin.jsp");
     }
 %>
 
