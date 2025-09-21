@@ -169,6 +169,6 @@
 </html>
 <%        
     } else {
-        response.sendRedirect("identificar.jsp");
+        response.sendRedirect("vistaLogin.jsp");
     }
 %>

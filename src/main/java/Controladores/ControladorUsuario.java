@@ -14,13 +14,13 @@ public class ControladorUsuario extends HttpServlet {
 
     private DAOUsuario Daousu = new DAOUsuario();
     private final String pagListarUsuarios = "/vistas/listarUsuarios.jsp";
-    private final String pagPrincipal = "/vistas/index.jsp";
+    private final String pagPrincipal = "/vistas/listarAdmin.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
         switch (accion) {
-            case "index":
+            case "listarAdmin":
                 request.getRequestDispatcher(pagPrincipal).forward(request, response);
                 break;
             case "listarUsuarios":

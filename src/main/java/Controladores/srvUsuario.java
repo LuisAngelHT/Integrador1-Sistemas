@@ -30,10 +30,10 @@ public class srvUsuario extends HttpServlet {
                     case "cerrar":
                         cerrarsession(request, response);
                     default:
-                        response.sendRedirect("identificar.jsp");
+                        response.sendRedirect("vistaLogin.jsp");
                 }
             } else {
-                response.sendRedirect("identificar.jsp");
+                response.sendRedirect("vistaLogin.jsp");
             }
         } catch (Exception e) {
             try {
@@ -56,14 +56,14 @@ public class srvUsuario extends HttpServlet {
             sesion = request.getSession();
             sesion.setAttribute("usuario", usuario);
             request.setAttribute("msje", "Bienvenido al sistema");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/index.jsp").forward(request, response);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/listarAdmin.jsp").forward(request, response);
         }else if(usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")){
            sesion = request.getSession();
             sesion.setAttribute("profesional", usuario);
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaProfesional.jsp").forward(request, response); 
         }else{
             request.setAttribute("msje", "Credenciales Incorrectas");
-            request.getRequestDispatcher("identificar.jsp").forward(request, response);
+            request.getRequestDispatcher("vistaLogin.jsp").forward(request, response);
         }
             
     }
@@ -72,7 +72,7 @@ public class srvUsuario extends HttpServlet {
         HttpSession sesion = request.getSession();
         sesion.setAttribute("usuario", null);
         sesion.invalidate();
-        response.sendRedirect("identificar.jsp");
+        response.sendRedirect("vistaLogin.jsp");
         
     }
 

@@ -64,7 +64,7 @@
 
                                         <p>                    
                                             Bienvenido - ${usuario.nombre}
-                                            <small>Usted es,${usuario.rol.nombreRol} </small>
+                                            <small>Usted es, ${usuario.rol.nombreRol} </small>
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
@@ -273,6 +273,6 @@
 </html>
 <%
     } else {
-        response.sendRedirect("identificar.jsp");
+        response.sendRedirect("vistaLogin.jsp");
     }
 %>
