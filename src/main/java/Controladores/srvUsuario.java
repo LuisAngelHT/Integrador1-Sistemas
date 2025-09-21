@@ -57,10 +57,10 @@ public class srvUsuario extends HttpServlet {
             sesion.setAttribute("usuario", usuario);
             request.setAttribute("msje", "Bienvenido al sistema");
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/index.jsp").forward(request, response);
-        }else if(usuario != null && usuario.getRol().getNombreRol().equals("Paciente")){
+        }else if(usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")){
            sesion = request.getSession();
-            sesion.setAttribute("paciente", usuario);
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaPaciente.jsp").forward(request, response); 
+            sesion.setAttribute("profesional", usuario);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaProfesional.jsp").forward(request, response); 
         }else{
             request.setAttribute("msje", "Credenciales Incorrectas");
             request.getRequestDispatcher("identificar.jsp").forward(request, response);

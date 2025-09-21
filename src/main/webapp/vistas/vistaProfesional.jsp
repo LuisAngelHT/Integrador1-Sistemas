@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    if (session.getAttribute("paciente") != null) {
+    if (session.getAttribute("profesional") != null) {
 %>
 <html>
     <head>
@@ -54,7 +54,7 @@
                                     <!-- The user image in the navbar-->
                                     <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs">${paciente.nombre}</span>
+                                    <span class="hidden-xs">${profesional.nombre}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- The user image in the menu -->
@@ -62,8 +62,8 @@
                                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                         <p>                    
-                                            Bienvenido - ${paciente.nombre}
-                                            <small>Usted es, ${paciente.rol.nombreRol} </small>
+                                            Bienvenido - ${profesional.nombre}
+                                            <small>Usted es, ${profesional.rol.nombreRol} </small>
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
@@ -90,7 +90,7 @@
                             <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Bienvenido, ${paciente.nombre}</p>
+                            <p>Bienvenido, ${profesional.nombre}</p>
                             <!-- Status -->
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
