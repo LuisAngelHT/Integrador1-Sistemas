@@ -53,14 +53,14 @@
                                 <!-- Menu Toggle Button -->
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <!-- The user image in the navbar-->
-                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <img src="dist/img/admin.jpg" class="user-image" alt="User Image">
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                     <span class="hidden-xs"> ${usuario.nombre}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- The user image in the menu -->
                                     <li class="user-header">
-                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                        <img src="dist/img/admin.jpg" class="img-circle" alt="User Image">
 
                                         <p>                    
                                             Bienvenido - ${usuario.nombre}
@@ -88,7 +88,7 @@
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            <img src="dist/img/admin.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p>Bienvenido,  ${usuario.nombre} </p>
@@ -97,21 +97,9 @@
                         </div>
                     </div>
 
-                    <!-- search form (Optional) -->
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
-
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-                        <li class="header">INICIO</li>
+                    <li class="header">INICIO</li>
 
                         <!-- Inicio -->
                         <li>
@@ -166,7 +154,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Pagina principal
+                        PAGINA PRINCIPAL
                     </h1>
 
                 </section>
@@ -180,7 +168,7 @@
                                 <div class="inner">
                                     <h3>150</h3>
 
-                                    <p>Nuevos Clientes</p>
+                                    <p>Total Citas</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
@@ -195,7 +183,7 @@
                                 <div class="inner">
                                     <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                                    <p>Bounce Rate</p>
+                                    <p>Total Pacientes</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
@@ -210,7 +198,7 @@
                                 <div class="inner">
                                     <h3>44</h3>
 
-                                    <p>User Registrations</p>
+                                    <p>Total Especialistas</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
@@ -244,10 +232,10 @@
             <footer class="main-footer">
                 <!-- To the right -->
                 <div class="pull-right hidden-xs">
-                    Anything you want
+                    Working...
                 </div>
                 <!-- Default to the left -->
-                <strong>Copyright &copy; 2020 <a href="#">IDAT</a>.</strong> Todos los derechos reservados.
+                <strong>Utepinos &copy; 2025 <a href="#">UTP</a>.</strong> Todos los derechos reservados.
             </footer>
 
             <div class="control-sidebar-bg"></div>

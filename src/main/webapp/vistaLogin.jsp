@@ -20,20 +20,36 @@
         <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+        body.login-page {
+            /* Color de respaldo por si la imagen no carga */
+            background-color: #2c3e50; 
+            /* URL de la imagen de fondo*/
+            background-image: url("https://i.pinimg.com/736x/57/35/20/573520dd3e12fff1397350e7e59f6c5b.jpg");
+            /* Propiedades para evitar el efecto de mosaico y asegurar que la imagen cubra todo */
+            background-repeat: no-repeat;
+            background-size: cover; 
+            background-position: center;
+        }
+        .login-box-msg {
+            font-size: 20px;
+            font-weight: bold
+        }
+        </style>
     </head>
-    <body style="background-image: url(https://img.pikbest.com/wp/202405/dark-blue-background-wallpaper-3d-wall-perfect-for-backgrounds-backdrops-and_9842578.jpg!w700wp)" class="hold-transition login-page">
+    <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a style="color: white" href="#"><b> CITAS MEDICAS</b></a>
+                <a style="color: white; font-size: 45px" href="#"><b>CITAS MEDICAS</b></a>
             </div>
             
             <!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Iniciar Sesion</p>
+                <p class="login-box-msg">INICIAR SESION</p>
 
                 <form action="srvUsuario?accion=verificar" method="POST">
                     <div class="form-group has-feedback">
-                        <input type="text" name="txtCorreo" id="txtCorreo" value="" class="form-control"  placeholder="Usuario">
+                        <input type="text" name="txtCorreo" id="txtCorreo" value="" class="form-control"  placeholder="Correo Electronico">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -44,21 +60,19 @@
                         
                         <!-- /.col -->
                         <div class="col-xs-12">
-                            <input type="submit" name="verificar" value="Ingresar" class="btn btn-primary btn-block"/>
+                            <input type="submit" name="verificar" value="INGRESAR" class="btn btn-primary btn-block"/>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <div class="social-auth-links text-center">
-                    <p>- Verificación Credenciales -</p>
+                    <p>-- Verificación de Credenciales --</p>
                     <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-info"></i> Mensaje: 
                         ${msje}</a>
                 </div>
                 <!-- /.social-auth-links -->
 
-                <a href="#">Olvide mi contraseña</a><br>
-                <a href="#" class="text-center">¿Eres nuevo? Registrate</a>
 
             </div>
             <!-- /.login-box-body -->
