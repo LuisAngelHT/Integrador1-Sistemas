@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=listaPacientes">
+                            <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=listarPacientes">
                                 <i class="fa fa-area-chart"></i> <span>Pacientes</span>
                             </a>
                         </li>

@@ -56,7 +56,7 @@ public class srvUsuario extends HttpServlet {
             sesion = request.getSession();
             sesion.setAttribute("usuario", usuario);
             request.setAttribute("msje", "Bienvenido al sistema");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/listarAdmin.jsp").forward(request, response);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaAdmin.jsp").forward(request, response);
         }else if(usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")){
            sesion = request.getSession();
             sesion.setAttribute("profesional", usuario);

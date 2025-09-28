@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     if (session.getAttribute("usuario") != null) {
 %>
@@ -97,25 +98,13 @@
                         </div>
                     </div>
 
-                    <!-- search form (Optional) -->
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
-
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">INICIO</li>
 
                         <!-- Inicio -->
                         <li>
-                            <a href="${pageContext.request.contextPath}/ControladorUsuario?accion=listarAdmin">
+                            <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=vistaAdmin">
                                 <i class="fa fa-home"></i> <span>Panel Administrativo</span>
                             </a>
                         </li>
@@ -171,6 +160,33 @@
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalFormulario">
                                     <i class="fa-solid fa-plus"></i>Nuevo
                                 </button>
+                                <br>
+                                <br>
+                                <form action="ControladorPaciente" method="GET" class="form-inline mb-3">
+                                    <div class="input-group">
+                                        <input type="text" 
+                                               class="form-control" 
+                                               placeholder="Buscar por DNI..." 
+                                               name="dniBuscar" 
+                                               value="${param.dniBuscar != null ? param.dniBuscar : ''}"
+                                               maxlength="8" 
+                                               pattern="\d{8}" 
+                                               title="Ingrese 8 dígitos para buscar por DNI.">
+
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">
+                                                <i class="fa fa-search"></i> Buscar
+                                            </button>
+
+                                            <c:if test="${param.dniBuscar != null && param.dniBuscar != ''}">
+                                                <a href="ControladorPaciente?accion=listarPacientes" class="btn btn-outline-danger" title="Limpiar búsqueda">
+                                                    <i class="fa fa-times"></i> Limpiar
+                                                </a>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="accion" value="listarPacientes">
+                                </form>
                                 <table class="table table-bordered table-striped mt-2">
                                     <thead>
                                         <tr>
@@ -188,7 +204,7 @@
                                     <tbody>
                                         <c:forEach items="${paciente}" var="item">
                                             <tr>
-                                                <td>${item.idPaciente}</td>
+                                                <td><fmt:formatNumber value="${item.idPaciente}" pattern="000"/></td>
                                                 <td>${item.nombre}</td>
                                                 <td>${item.apellido}</td>
                                                 <td>${item.dni}</td>
@@ -209,12 +225,105 @@
 
                                     </tbody>
                                 </table>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div>
+                                        Mostrando ${inicioRegistro} a ${finRegistro} de ${totalRegistros} pacientes
+                                    </div>
+
+                                    <nav>
+                                        <ul class="pagination pagination-sm">
+                                            <li class="page-item <c:if test="${paginaActual == 1}">disabled</c:if>">
+                                                <a class="page-link" href="ControladorPaciente?accion=listarPacientes&page=${paginaActual - 1}" aria-label="Anterior">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+
+                                            <c:forEach begin="1" end="${totalPaginas}" var="i">
+                                                <li class="page-item <c:if test="${paginaActual == i}">active</c:if>">
+                                                    <a class="page-link" href="ControladorPaciente?accion=listarPacientes&page=${i}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+
+                                            <li class="page-item <c:if test="${paginaActual == totalPaginas}">disabled</c:if>">
+                                                <a class="page-link" href="ControladorPaciente?accion=listarPacientes&page=${paginaActual + 1}" aria-label="Siguiente">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                 </section>
-                <!-- /.content -->
+                <!-- Modal para registrar paciente -->
+            </div>
+            <div class="modal fade" id="modalFormulario" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="modalLabel">Nuevo Empleado</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="ControladorPaciente" method="post">
+
+                                <div style="display: flex; gap: 20px;">
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Nombres</label>
+                                        <input name="nombres" type="text" class="form-control" maxlength="50" required="">
+                                    </div>
+
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Apellidos</label>
+                                        <input name="apellidos" type="text" class="form-control" maxlength="50" required="">
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; gap: 20px;">
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>DNI</label>
+                                        <input name="dni" type="text" class="form-control" maxlength="8" required="" pattern="\d{8}" title="El DNI debe tener 8 dígitos.">
+                                    </div>
+
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Fecha de Nacimiento</label>
+                                        <input name="nacimiento" type="date" class="form-control" required="">
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; gap: 20px;">
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Sexo</label>
+                                        <select name="sexo" class="form-control" required="">
+                                            <option value="">Seleccione...</option>
+                                            <option value="M">Masculino (M)</option>
+                                            <option value="F">Femenino (F)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Teléfono</label>
+                                        <input name="telefono" type="tel" class="form-control" maxlength="15">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dirección</label>
+                                    <input name="direccion" type="text" class="form-control" maxlength="100" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" name="accion" value="registrar">
+                                    <button class="btn btn-primary btn-sm">Registrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Main Footer -->
             <footer class="main-footer">
