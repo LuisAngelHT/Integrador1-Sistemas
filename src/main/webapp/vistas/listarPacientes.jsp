@@ -8,7 +8,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sistema Bodega| Inicio</title>
+        <title>Citas Medicas</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" >
@@ -34,10 +34,16 @@
             <!-- Main Header -->
             <header class="main-header">
                 <a href="#" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>S</b>BL</span>
-                    <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>CITAS MEDICAS</b></span>
+                    <!-- mini logo (solo icono en sidebar reducido) -->
+                    <span class="logo-mini">
+                        <img src="icono.png" alt="CM" style="width:30px; height:30px;">
+                    </span>
+
+                    <!-- logo grande (texto + icono en estado normal) -->
+                    <span class="logo-lg">
+                        <img src="icono.png" alt="Logo" style="width:30px; height:30px; vertical-align:middle;">
+                        <b>CITAS MEDICAS</b>
+                    </span>
                 </a>
 
                 <!-- Header Navbar -->
