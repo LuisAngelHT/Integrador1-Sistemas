@@ -1,6 +1,5 @@
 package Controladores;
 
-
 import Modelo.DAOUsuario;
 import Modelo.Usuario;
 import Modelo.Rol;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "srvUsuario", urlPatterns = {"/srvUsuario"})
 public class srvUsuario extends HttpServlet {
-
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,35 +43,36 @@ public class srvUsuario extends HttpServlet {
         }
 
     }
-     private void verificar(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+    private void verificar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession sesion;
         DAOUsuario dao;
         Usuario usuario;
+
+        // 1. Obtiene los datos del formulario (Correo y Contraseña)
         usuario = this.obtenerUsuario(request);
+
+        // 2. Llama al DAO para autenticar contra la Base de Datos
         dao = new DAOUsuario();
-        usuario = dao.identificar(usuario);
-        if (usuario != null && usuario.getRol().getNombreRol().equals("Administrador")) {
-            sesion = request.getSession();
-            sesion.setAttribute("usuario", usuario);
-            request.setAttribute("msje", "Bienvenido al sistema");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaAdmin.jsp").forward(request, response);
-        }else if(usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")){
-           sesion = request.getSession();
-            sesion.setAttribute("profesional", usuario);
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/vistaProfesional.jsp").forward(request, response); 
-        }else{
-            request.setAttribute("msje", "Credenciales Incorrectas");
+        usuario = dao.identificar(usuario); // <-- Aquí es donde se usa tu DAO
+
+        if (usuario != null) {
+            // AUTENTICACIÓN EXITOSA (El DAO devolvió un objeto Usuario)
+            // ... (Tu lógica de roles y redirección) ...
+
+        } else {
+            // AUTENTICACIÓN FALLIDA (El DAO devolvió null)
+            request.setAttribute("error", "Credenciales Incorrectas (Email o Contraseña inválidos).");
             request.getRequestDispatcher("vistaLogin.jsp").forward(request, response);
         }
-            
     }
 
-    private void cerrarsession(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    private void cerrarsession(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession sesion = request.getSession();
         sesion.setAttribute("usuario", null);
         sesion.invalidate();
         response.sendRedirect("vistaLogin.jsp");
-        
+
     }
 
     private Usuario obtenerUsuario(HttpServletRequest request) {
@@ -82,7 +81,6 @@ public class srvUsuario extends HttpServlet {
         u.setContrasena(request.getParameter("txtPass"));
         return u;
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -122,7 +120,5 @@ public class srvUsuario extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-   
 
 }

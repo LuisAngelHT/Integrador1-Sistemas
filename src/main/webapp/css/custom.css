@@ -20,26 +20,12 @@ body.login-page {
     50% { background-position: 15px 15px; }
 }
 
-/* Reducir animaciones para usuarios que lo prefieran */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    body.login-page {
-        animation: none;
-    }
-}
-
 /* =======================
    Caja Login Premium
 ======================= */
 .login-box {
     width: 400px;
     max-width: 90%;
-    animation: slideInDown 0.6s ease-out;
 }
 
 .login-box-body {
@@ -54,18 +40,6 @@ body.login-page {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
-    position: relative;
-}
-
-.login-box-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #5DADE2, #48CAE4, #5DADE2);
-    border-radius: 20px 20px 0 0;
 }
 
 .login-box-body:hover {
@@ -92,86 +66,34 @@ body.login-page {
 }
 
 .center-name {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 24px;
+    font-weight: 700;
     color: white;
     text-align: center;
-    margin: 0 0 30px 0;
-    text-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.4),
-        0 4px 8px rgba(0, 0, 0, 0.2),
-        0 8px 16px rgba(0, 0, 0, 0.1);
-    letter-spacing: 1px;
-    line-height: 1.3;
+    margin: 0 0 25px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 50%, #ffffff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
-    animation: fadeInUp 0.8s ease-out 0.2s both, glow-pulse 3s ease-in-out infinite;
-    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
-}
-
-.center-name::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120%;
-    height: calc(100% + 10px);
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    border-radius: 15px;
-    z-index: -1;
-    backdrop-filter: blur(5px);
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .center-name::after {
     content: '';
     position: absolute;
-    bottom: -12px;
+    bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.9) 100%);
-    border-radius: 2px;
-    box-shadow: 
-        0 2px 8px rgba(255, 255, 255, 0.3),
-        0 4px 16px rgba(0, 0, 0, 0.2);
-    animation: underline-glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow-pulse {
-    0%, 100% { 
-        text-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.4),
-            0 4px 8px rgba(0, 0, 0, 0.2),
-            0 8px 16px rgba(0, 0, 0, 0.1);
-    }
-    50% { 
-        text-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.4),
-            0 4px 8px rgba(0, 0, 0, 0.2),
-            0 8px 16px rgba(0, 0, 0, 0.1),
-            0 0 20px rgba(255, 255, 255, 0.3),
-            0 0 30px rgba(255, 255, 255, 0.2);
-    }
-}
-
-@keyframes underline-glow {
-    0% { 
-        box-shadow: 
-            0 2px 8px rgba(255, 255, 255, 0.3),
-            0 4px 16px rgba(0, 0, 0, 0.2);
-    }
-    100% { 
-        box-shadow: 
-            0 2px 12px rgba(255, 255, 255, 0.5),
-            0 4px 20px rgba(0, 0, 0, 0.3),
-            0 0 15px rgba(255, 255, 255, 0.4);
-    }
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+    border-radius: 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* =======================
@@ -225,11 +147,10 @@ body.login-page {
     padding: 15px 20px;
     font-weight: 500;
     color: #374151;
-    will-change: transform; /* Mejora performance de animaciones */
 }
 
 .form-control::placeholder {
-    color: #6b7280; /* Mejorado contraste para accesibilidad */
+    color: #9ca3af;
     opacity: 1;
     font-weight: 400;
     transition: all 0.3s ease;
@@ -267,7 +188,6 @@ body.login-page {
 .form-control.success {
     border-color: #10b981;
     background: rgba(240, 253, 244, 0.8);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 @keyframes shake {
@@ -310,13 +230,10 @@ body.login-page {
     z-index: 2;
 }
 
-.input-container .toggle-password:hover,
-.input-container .toggle-password:focus {
+.input-container .toggle-password:hover {
     background: rgba(93, 173, 226, 0.2);
     color: #5DADE2;
     transform: translateY(-50%) scale(1.1);
-    outline: 2px solid rgba(93, 173, 226, 0.3);
-    outline-offset: 2px;
 }
 
 .input-container .form-control-feedback {
@@ -333,17 +250,11 @@ body.login-page {
     color: #ef4444;
     margin-top: 8px;
     padding: 8px 12px;
-    background: rgba(254, 242, 242, 0.9);
+    background: rgba(254, 242, 242, 0.8);
     border: 1px solid rgba(239, 68, 68, 0.2);
     border-radius: 8px;
     backdrop-filter: blur(10px);
     animation: fadeInUp 0.3s ease;
-    position: relative;
-}
-
-.error-msg i {
-    margin-right: 5px;
-    color: #ef4444;
 }
 
 @keyframes fadeInUp {
@@ -358,31 +269,7 @@ body.login-page {
 }
 
 /* =======================
-   Alertas mejoradas
-======================= */
-.alert {
-    border-radius: 12px;
-    border: none;
-    margin-bottom: 20px;
-    padding: 15px 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    animation: slideInDown 0.5s ease;
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(254, 242, 242, 0.9));
-    color: #dc2626;
-    border-left: 4px solid #ef4444;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(240, 253, 244, 0.9));
-    color: #059669;
-    border-left: 4px solid #10b981;
-}
-
-/* =======================
-   Botón Premium con Estados de Loading
+   Botón Premium
 ======================= */
 .btn-login {
     width: 100%;
@@ -400,7 +287,6 @@ body.login-page {
     position: relative;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(93, 173, 226, 0.3);
-    will-change: transform;
 }
 
 .btn-login::before {
@@ -414,56 +300,35 @@ body.login-page {
     transition: left 0.5s ease;
 }
 
-.btn-login:hover:not(:disabled) {
+.btn-login:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 35px rgba(93, 173, 226, 0.4);
     background: linear-gradient(135deg, #48CAE4 0%, #5DADE2 100%);
 }
 
-.btn-login:hover:not(:disabled)::before {
+.btn-login:hover::before {
     left: 100%;
 }
 
-.btn-login:active:not(:disabled) {
+.btn-login:active {
     transform: translateY(-1px);
     box-shadow: 0 8px 20px rgba(93, 173, 226, 0.3);
 }
 
-/* Estado de loading mejorado */
-.btn-login:disabled,
-.btn-login.loading {
-    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+.btn-login:disabled {
+    background: #9ca3af;
     cursor: not-allowed;
     transform: none;
-    box-shadow: 0 4px 15px rgba(156, 163, 175, 0.3);
-}
-
-.btn-login.loading {
-    cursor: wait;
-}
-
-.btn-login.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    box-shadow: none;
 }
 
 /* =======================
    Animaciones de entrada
 ======================= */
+.login-box {
+    animation: slideInDown 0.6s ease-out;
+}
+
 @keyframes slideInDown {
     from {
         opacity: 0;
@@ -476,31 +341,9 @@ body.login-page {
 }
 
 /* =======================
-   Enlaces adicionales
-======================= */
-.forgot-password {
-    color: #5DADE2;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.forgot-password:hover,
-.forgot-password:focus {
-    color: #48CAE4;
-    text-decoration: underline;
-    transform: translateY(-1px);
-}
-
-/* =======================
    Responsive mejorado
 ======================= */
 @media (max-width: 480px) {
-    .login-box {
-        margin: 20px;
-    }
-    
     .login-box-body {
         padding: 30px 25px;
         border-radius: 15px;
@@ -508,10 +351,6 @@ body.login-page {
     
     .login-box-msg {
         font-size: 26px;
-    }
-    
-    .center-name {
-        font-size: 20px;
     }
     
     .form-control {
@@ -523,49 +362,18 @@ body.login-page {
         height: 50px;
         font-size: 15px;
     }
-    
-    .alert {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
 }
 
 /* =======================
-   Mejoras de accesibilidad
+   Efectos adicionales
 ======================= */
-@media (prefers-color-scheme: dark) {
-    /* Opcional: soporte para modo oscuro */
-    .login-box-body {
-        background: rgba(31, 41, 55, 0.95);
-        color: #f9fafb;
-    }
-    
-    .login-box-msg {
-        color: #f9fafb;
-        background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .form-control {
-        background: rgba(55, 65, 81, 0.8);
-        color: #f9fafb;
-        border-color: #4b5563;
-    }
-    
-    .form-control::placeholder {
-        color: #9ca3af;
-    }
-}
-
-/* Estados de focus mejorados para accesibilidad */
-*:focus {
-    outline: 2px solid rgba(93, 173, 226, 0.5);
-    outline-offset: 2px;
-}
-
-.btn-login:focus {
-    outline: 3px solid rgba(93, 173, 226, 0.6);
-    outline-offset: 2px;
+.login-box-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #5DADE2, #48CAE4, #5DADE2);
+    border-radius: 20px 20px 0 0;
 }
