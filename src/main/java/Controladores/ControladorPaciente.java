@@ -15,7 +15,7 @@ public class ControladorPaciente extends HttpServlet {
 
     private PacienteDAO Daopac = new PacienteDAO();
     private final String pagListarPacientes = "/vistas/listarPacientes.jsp";
-    private final String pagPrincipal = "/vistas/vistaAdmin.jsp";
+    private final String pagPrincipal = "/vistas/admin/dashboard.jsp";
 
     // Constante local (puede estar en el DAO o aquí, pero debe ser consistente)
     private static final int REGISTROS_POR_PAGINA = 10;

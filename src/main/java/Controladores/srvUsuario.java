@@ -27,8 +27,10 @@ public class srvUsuario extends HttpServlet {
                         break;
                     case "cerrar":
                         cerrarsession(request, response);
+                        break;
                     default:
                         response.sendRedirect("vistaLogin.jsp");
+                        break;  
                 }
             } else {
                 response.sendRedirect("vistaLogin.jsp");
@@ -56,13 +58,17 @@ public class srvUsuario extends HttpServlet {
         dao = new DAOUsuario();
         usuario = dao.identificar(usuario); // <-- Aquí es donde se usa tu DAO
 
-        if (usuario != null) {
-            // AUTENTICACIÓN EXITOSA (El DAO devolvió un objeto Usuario)
-            // ... (Tu lógica de roles y redirección) ...
-
+        if (usuario != null && usuario.getRol().getNombreRol().equals("Administrador")) {
+            sesion = request.getSession();
+            sesion.setAttribute("usuario", usuario);
+            request.setAttribute("msje", "Bienvenido al sistema");
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/admin/dashboard.jsp").forward(request, response);
+        } else if (usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")) {
+            sesion = request.getSession();
+            sesion.setAttribute("profesional", usuario);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/medico/dashboard.jsp").forward(request, response);
         } else {
-            // AUTENTICACIÓN FALLIDA (El DAO devolvió null)
-            request.setAttribute("error", "Credenciales Incorrectas (Email o Contraseña inválidos).");
+            request.setAttribute("error", "Credenciales Incorrectas");
             request.getRequestDispatcher("vistaLogin.jsp").forward(request, response);
         }
     }
