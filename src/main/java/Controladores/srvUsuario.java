@@ -30,7 +30,7 @@ public class srvUsuario extends HttpServlet {
                         break;
                     default:
                         response.sendRedirect("vistaLogin.jsp");
-                        break;  
+                        break;
                 }
             } else {
                 response.sendRedirect("vistaLogin.jsp");
@@ -51,22 +51,21 @@ public class srvUsuario extends HttpServlet {
         DAOUsuario dao;
         Usuario usuario;
 
-        // 1. Obtiene los datos del formulario (Correo y Contraseña)
         usuario = this.obtenerUsuario(request);
-
-        // 2. Llama al DAO para autenticar contra la Base de Datos
         dao = new DAOUsuario();
-        usuario = dao.identificar(usuario); // <-- Aquí es donde se usa tu DAO
+        usuario = dao.identificar(usuario);
 
         if (usuario != null && usuario.getRol().getNombreRol().equals("Administrador")) {
             sesion = request.getSession();
             sesion.setAttribute("usuario", usuario);
-            request.setAttribute("msje", "Bienvenido al sistema");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/admin/dashboard.jsp").forward(request, response);
+            // CAMBIO: Redirige al servlet en lugar del JSP directo
+            response.sendRedirect("srvDashboardAdmin?accion=dashboard");
+
         } else if (usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")) {
             sesion = request.getSession();
-            sesion.setAttribute("profesional", usuario);
+            sesion.setAttribute("usuario", usuario); // Cambiado de "profesional" a "usuario"
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/medico/dashboard.jsp").forward(request, response);
+
         } else {
             request.setAttribute("error", "Credenciales Incorrectas");
             request.getRequestDispatcher("vistaLogin.jsp").forward(request, response);

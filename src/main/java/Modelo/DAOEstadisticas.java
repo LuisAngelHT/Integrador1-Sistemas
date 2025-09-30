@@ -13,10 +13,6 @@ public class DAOEstadisticas extends conexion {
     // ==============================
     // MÉTODO AUXILIAR PRIVADO (DRY)
     // ==============================
-    /**
-     * Método auxiliar para ejecutar consultas COUNT(*) y devolver un solo entero.
-     * Simplifica el código de los métodos de conteo.
-     */
     private int getCount(String sql, String errorMsg) {
         int total = 0;
         try (Connection cn = getConnection();
@@ -28,6 +24,7 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println(errorMsg + e.getMessage());
+            e.printStackTrace();
         }
         return total;
     }
@@ -36,71 +33,42 @@ public class DAOEstadisticas extends conexion {
     // ESTADÍSTICAS GENERALES
     // ==============================
     
-    /**
-     * Obtiene el total de citas programadas para hoy
-     */
     public int getTotalCitasHoy() {
         String sql = "SELECT COUNT(*) as total FROM Citas WHERE FechaCita = CURDATE()";
         return getCount(sql, "Error en getTotalCitasHoy: ");
     }
     
-    /**
-     * Obtiene el total de pacientes registrados
-     */
     public int getTotalPacientes() {
         String sql = "SELECT COUNT(*) as total FROM Pacientes";
         return getCount(sql, "Error en getTotalPacientes: ");
     }
     
-    /**
-     * Obtiene el total de profesionales médicos activos
-     */
     public int getTotalMedicosActivos() {
         String sql = "SELECT COUNT(DISTINCT p.IDProfesional) as total " +
                      "FROM Profesionales p " +
                      "INNER JOIN Usuarios u ON p.IDUsuario = u.IDUsuario " +
-                     "INNER JOIN Roles r ON u.IDRol = r.IDRol " +
-                     "WHERE u.Estado = 1 AND r.NombreRol = 'Profesional Medico'"; 
+                     "WHERE (u.Estado = 1 AND u.IDRol IN (2,3))";
         return getCount(sql, "Error en getTotalMedicosActivos: ");
     }
     
-    /**
-     * Obtiene el total de profesionales NO médicos activos
-     */
     public int getTotalNoMedicosActivos() {
         String sql = "SELECT COUNT(DISTINCT p.IDProfesional) as total " +
                      "FROM Profesionales p " +
                      "INNER JOIN Usuarios u ON p.IDUsuario = u.IDUsuario " +
-                     "INNER JOIN Roles r ON u.IDRol = r.IDRol " +
-                     "WHERE u.Estado = 1 AND r.NombreRol = 'Profesional No Medico'"; 
+                     "WHERE u.Estado = 1 AND u.IDRol = 3";
         return getCount(sql, "Error en getTotalNoMedicosActivos: ");
     }
     
-    /**
-     * Obtiene el total de citas pendientes de confirmación
-     */
     public int getCitasPendientes() {
         String sql = "SELECT COUNT(*) as total FROM Citas WHERE Estado = 'Pendiente'";
         return getCount(sql, "Error en getCitasPendientes: ");
     }
     
-    /**
-     * Obtiene pacientes registrados en el mes actual
-     * CORREGIDO: Ahora cuenta pacientes registrados este mes (asumiendo columna FechaRegistro)
-     * Si tu tabla NO tiene FechaRegistro, usa el ORDER BY IDPaciente DESC LIMIT como alternativa
-     */
     public int getPacientesEsteMes() {
-        // OPCIÓN 1: Si tienes columna FechaRegistro (RECOMENDADO)
-        String sql = "SELECT COUNT(*) as total FROM Pacientes " +
-                     "WHERE MONTH(FechaRegistro) = MONTH(CURDATE()) " +
-                     "AND YEAR(FechaRegistro) = YEAR(CURDATE())";
-        
-        // OPCIÓN 2: Si NO tienes FechaRegistro, cuenta por cumpleaños (tu versión original)
-        // Descomenta esto si no tienes FechaRegistro:
-        // String sql = "SELECT COUNT(*) as total FROM Pacientes " +
-        //              "WHERE MONTH(FechaNacimiento) = MONTH(CURDATE()) " +
-        //              "AND YEAR(FechaNacimiento) = YEAR(CURDATE())";
-        
+        String sql = "SELECT COUNT(*) as total FROM (" +
+                     "  SELECT IDPaciente FROM Pacientes " +
+                     "  ORDER BY IDPaciente DESC LIMIT 30" +
+                     ") as ultimos";
         return getCount(sql, "Error en getPacientesEsteMes: ");
     }
     
@@ -108,9 +76,6 @@ public class DAOEstadisticas extends conexion {
     // CITAS DEL DÍA
     // ==============================
     
-    /**
-     * Obtiene las citas programadas para hoy con datos completos
-     */
     public ArrayList<Map<String, Object>> getCitasHoy() {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT c.IDCita, c.HoraCita, c.Estado, " +
@@ -141,6 +106,7 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println("Error en getCitasHoy: " + e.getMessage());
+            e.printStackTrace();
         }
         return lista;
     }
@@ -149,9 +115,6 @@ public class DAOEstadisticas extends conexion {
     // PACIENTES RECIENTES
     // ==============================
     
-    /**
-     * Obtiene los últimos pacientes registrados
-     */
     public ArrayList<Paciente> getPacientesRecientes(int limite) {
         ArrayList<Paciente> lista = new ArrayList<>();
         String sql = "SELECT IDPaciente, Nombre, Apellido, DNI, FechaNacimiento, Sexo, Telefono, Direccion " +
@@ -180,6 +143,7 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println("Error en getPacientesRecientes: " + e.getMessage());
+            e.printStackTrace();
         }
         return lista;
     }
@@ -188,9 +152,6 @@ public class DAOEstadisticas extends conexion {
     // CITAS POR ESTADO
     // ==============================
     
-    /**
-     * Obtiene el conteo de citas por estado
-     */
     public Map<String, Integer> getCitasPorEstado() {
         Map<String, Integer> stats = new HashMap<>();
         String sql = "SELECT Estado, COUNT(*) as total FROM Citas GROUP BY Estado";
@@ -204,6 +165,7 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println("Error en getCitasPorEstado: " + e.getMessage());
+            e.printStackTrace();
         }
         return stats;
     }
@@ -212,10 +174,6 @@ public class DAOEstadisticas extends conexion {
     // PROFESIONALES POR TIPO
     // ==============================
     
-    /**
-     * Obtiene lista de profesionales médicos activos
-     * CORREGIDO: Agregado JOIN con Roles
-     */
     public ArrayList<Map<String, Object>> getProfesionalesMedicos() {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT p.IDProfesional, " +
@@ -223,9 +181,8 @@ public class DAOEstadisticas extends conexion {
                      "e.NombreEspecialidad, u.Telefono " +
                      "FROM Profesionales p " +
                      "INNER JOIN Usuarios u ON p.IDUsuario = u.IDUsuario " +
-                     "INNER JOIN Roles r ON u.IDRol = r.IDRol " +
                      "INNER JOIN Especialidades e ON p.IDEspecialidad = e.IDEspecialidad " +
-                     "WHERE u.Estado = 1 AND r.NombreRol = 'Profesional Medico' " +
+                     "WHERE u.Estado = 1 AND u.IDRol = 2 " +
                      "ORDER BY u.Apellido, u.Nombre";
         
         try (Connection cn = getConnection();
@@ -242,14 +199,11 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println("Error en getProfesionalesMedicos: " + e.getMessage());
+            e.printStackTrace();
         }
         return lista;
     }
     
-    /**
-     * Obtiene lista de profesionales NO médicos activos
-     * CORREGIDO: Agregado JOIN con Roles
-     */
     public ArrayList<Map<String, Object>> getProfesionalesNoMedicos() {
         ArrayList<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT p.IDProfesional, " +
@@ -257,9 +211,8 @@ public class DAOEstadisticas extends conexion {
                      "e.NombreEspecialidad, u.Telefono " +
                      "FROM Profesionales p " +
                      "INNER JOIN Usuarios u ON p.IDUsuario = u.IDUsuario " +
-                     "INNER JOIN Roles r ON u.IDRol = r.IDRol " +
                      "INNER JOIN Especialidades e ON p.IDEspecialidad = e.IDEspecialidad " +
-                     "WHERE u.Estado = 1 AND r.NombreRol = 'Profesional No Medico' " +
+                     "WHERE u.Estado = 1 AND u.IDRol = 3 " +
                      "ORDER BY u.Apellido, u.Nombre";
         
         try (Connection cn = getConnection();
@@ -276,6 +229,7 @@ public class DAOEstadisticas extends conexion {
             }
         } catch (Exception e) {
             System.err.println("Error en getProfesionalesNoMedicos: " + e.getMessage());
+            e.printStackTrace();
         }
         return lista;
     }
