@@ -1,7 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%
+    if (session.getAttribute("usuario") == null) {
+        response.sendRedirect(request.getContextPath() + "/vistaLogin.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,14 +38,19 @@
                 </section>
                 <!-- Mensajes con SweetAlert -->
                 <c:if test="${not empty sessionScope.mensaje}">
-                    <script>
-                        Swal.fire({
-                            icon: '${sessionScope.tipoMensaje == "success" ? "success" : sessionScope.tipoMensaje == "warning" ? "warning" : "error"}',
-                            title: '${sessionScope.tipoMensaje == "success" ? "¡Éxito!" : sessionScope.tipoMensaje == "warning" ? "Advertencia" : "Error"}',
-                            text: '${sessionScope.mensaje}',
-                            confirmButtonColor: '#3085d6'
-                        });
-                    </script>
+                    <c:if test="${not empty mensaje}">
+                        <script>
+                            Swal.fire({
+                                icon: '${tipoMensaje}',
+                                title: '${mensaje}',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        </script>
+                        <%-- MUY IMPORTANTE: Se borran las variables de la sesión --%>
+                        <c:remove var="mensaje" scope="session"/>
+                        <c:remove var="tipoMensaje" scope="session"/>
+                    </c:if>
                     <c:remove var="mensaje" scope="session"/>
                     <c:remove var="tipoMensaje" scope="session"/>
                 </c:if>
@@ -57,7 +67,7 @@
 
                         <div class="box-body">
                             <!-- Buscador -->
-                            <form action="ControladorPaciente" method="GET" class="form-inline mb-3">
+                            <form action="srvPaciente" method="GET" class="form-inline mb-3">
                                 <div class="input-group">
                                     <input type="text" 
                                            class="form-control" 
@@ -71,7 +81,7 @@
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                         <c:if test="${not empty param.dniBuscar}">
-                                            <a href="ControladorPaciente?accion=pacientes" class="btn btn-warning">
+                                            <a href="srvPaciente?accion=pacientes" class="btn btn-warning">
                                                 <i class="fa fa-times"></i> Limpiar
                                             </a>
                                         </c:if>
@@ -154,15 +164,15 @@
                                         <div class="dataTables_paginate paging_simple_numbers pull-right">
                                             <ul class="pagination pagination-sm no-margin">
                                                 <li class="${paginaActual == 1 ? 'disabled' : ''}">
-                                                    <a href="ControladorPaciente?accion=pacientes&page=${paginaActual - 1}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">&laquo;</a>
+                                                    <a href="srvPaciente?accion=pacientes&page=${paginaActual - 1}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">&laquo;</a>
                                                     </li>
                                                 <c:forEach begin="1" end="${totalPaginas}" var="i">
                                                     <li class="${paginaActual == i ? 'active' : ''}">
-                                                        <a href="ControladorPaciente?accion=pacientes&page=${i}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">${i}</a>
+                                                        <a href="srvPaciente?accion=pacientes&page=${i}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">${i}</a>
                                                         </li>
                                                 </c:forEach>
                                                 <li class="${paginaActual == totalPaginas ? 'disabled' : ''}">
-                                                    <a href="ControladorPaciente?accion=pacientes&page=${paginaActual + 1}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">&raquo;</a>
+                                                    <a href="srvPaciente?accion=pacientes&page=${paginaActual + 1}<c:if test='${not empty param.dniBuscar}'>&dniBuscar=${param.dniBuscar}</c:if>">&raquo;</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -182,7 +192,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title"><i class="fa fa-user-plus"></i> Nuevo Paciente</h4>
                         </div>
-                        <form action="ControladorPaciente" method="post">
+                        <form action="srvPaciente" method="post">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -252,7 +262,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title"><i class="fa fa-edit"></i> Editar Paciente</h4>
                         </div>
-                        <form action="ControladorPaciente" method="post">
+                        <form action="srvPaciente" method="post">
                             <div class="modal-body">
                                 <input type="hidden" name="idPaciente" id="editId">
                                 <div class="row">
@@ -344,7 +354,7 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = 'ControladorPaciente?accion=eliminar&id=' + id;
+                        window.location.href = 'srvPaciente?accion=eliminar&id=' + id;
                     }
                 });
             }

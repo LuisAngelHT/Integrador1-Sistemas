@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ControladorPaciente", urlPatterns = {"/ControladorPaciente"})
-public class ControladorPaciente extends HttpServlet {
+@WebServlet(name = "srvPaciente", urlPatterns = {"/srvPaciente"})
+public class srvPaciente extends HttpServlet {
 
     private PacienteDAO Daopac = new PacienteDAO();
     private final String pagListarPacientes = "/vistas/admin/pacientes.jsp";
@@ -107,9 +107,12 @@ public class ControladorPaciente extends HttpServlet {
         request.getRequestDispatcher(pagListarPacientes).forward(request, response);
     }
 
+
     private void registrar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+
+        // NOTA: response.setContentType("text/html;charset=UTF-8"); ya no es necesario aquí
+        // si usas sendRedirect, pero no hace daño dejarlo.
         Paciente pac = new Paciente();
         pac.setNombre(request.getParameter("nombres"));
         pac.setApellido(request.getParameter("apellidos"));
@@ -118,10 +121,23 @@ public class ControladorPaciente extends HttpServlet {
         pac.setSexo(request.getParameter("sexo"));
         pac.setTelefono(request.getParameter("telefono"));
         pac.setDireccion(request.getParameter("direccion"));
+
         int result = Daopac.registrar(pac);
+
         if (result > 0) {
-            response.sendRedirect("ControladorPaciente?accion=pacientes");
+            // *** CAMBIOS AÑADIDOS AHORA (ÉXITO) ***
+            request.getSession().setAttribute("mensaje", "Paciente registrado exitosamente.");
+            request.getSession().setAttribute("tipoMensaje", "success");
+        } else {
+            // *** CAMBIOS AÑADIDOS AHORA (ERROR) ***
+            // Nota: Asumiendo que 0 o cualquier otro valor negativo es un error.
+            // Si tienes lógica específica para DNI duplicado (-2), la pondrías aquí.
+            request.getSession().setAttribute("mensaje", "Error al registrar paciente. Verifique que el DNI no esté duplicado.");
+            request.getSession().setAttribute("tipoMensaje", "danger");
         }
+
+        // La redirección DEBE ir fuera del 'if' para manejar tanto éxito como error.
+        response.sendRedirect("ControladorPaciente?accion=pacientes");
     }
 
     // Cargar datos del paciente para editar
