@@ -61,9 +61,14 @@ public class srvUsuario extends HttpServlet {
             // CAMBIO: Redirige al servlet en lugar del JSP directo
             response.sendRedirect("srvDashboardAdmin?accion=dashboard");
 
-        } else if (usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")) {
+        } else if (usuario != null && usuario.getRol().getNombreRol().equals("Profesional Medico")){
             sesion = request.getSession();
-            sesion.setAttribute("usuario", usuario); // Cambiado de "profesional" a "usuario"
+            sesion.setAttribute("profesional", usuario); // Cambiado de "profesional" a "usuario"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/medico/dashboard.jsp").forward(request, response);
+
+        } else if (usuario != null && usuario.getRol().getNombreRol().equals("Profesional No Medico")){
+            sesion = request.getSession();
+            sesion.setAttribute("profesional", usuario); // Cambiado de "profesional" a "usuario"
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/medico/dashboard.jsp").forward(request, response);
 
         } else {
