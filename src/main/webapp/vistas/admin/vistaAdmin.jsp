@@ -34,7 +34,7 @@
             <header class="main-header">
                 <a href="#" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>S</b>BL</span>
+                    <span class="logo-mini"><b>S</b>CM</span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><b>CITAS MEDICAS</b></span>
                 </a>
@@ -99,7 +99,7 @@
 
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">INICIO</li>
+                        <li class="header">INICIO</li>
 
                         <!-- Inicio -->
                         <li>
@@ -109,39 +109,34 @@
                         </li>
                         <li>
                             <a href="">
-                                <i class="fa fa-cart-arrow-down"></i> <span>Citas</span>
+                                <i class="glyphicon glyphicon-th-large"></i> <span>Citas</span>
                             </a>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=listarPacientes">
-                                <i class="fa fa-area-chart"></i> <span>Pacientes</span>
+                                <i class="fa fa-users" aria-hidden="true"></i><span>Pacientes</span>
                             </a>
                         </li>
-                        <li class="treeview">
-                            <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>Especialistas</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-user-md" aria-hidden="true"></i> <span>Profesionales</span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Profesionales</span>
-                                    </a>
-                                </li>
+                        </li>
 
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Especialidades</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Horarios</span>
-                                    </a>
-                                </li>
-
-                            </ul>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-hospital-o" aria-hidden="true"></i> <span>Especialidades</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-calendar" aria-hidden="true"></i> <span>Horarios</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-user" aria-hidden="true"></i> <span>Usuarios</span>
+                            </a>
                         </li>
                     </ul>
                     <!-- /.sidebar-menu -->
@@ -166,12 +161,12 @@
                             <!-- small box -->
                             <div class="small-box bg-aqua">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3>0</h3>
 
                                     <p>Total Citas</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="ion ion-stats-bars"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
@@ -181,12 +176,12 @@
                             <!-- small box -->
                             <div class="small-box bg-green">
                                 <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                    <h3>18</h3>
 
                                     <p>Total Pacientes</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
+                                    <i class="ion ion-person-add"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
@@ -196,9 +191,9 @@
                             <!-- small box -->
                             <div class="small-box bg-yellow">
                                 <div class="inner">
-                                    <h3>44</h3>
+                                    <h3>0</h3>
 
-                                    <p>Total Especialistas</p>
+                                    <p>Total Profesionales</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
@@ -211,12 +206,12 @@
                             <!-- small box -->
                             <div class="small-box bg-red">
                                 <div class="inner">
-                                    <h3>65</h3>
+                                    <h3>10</h3>
 
-                                    <p>Unique Visitors</p>
+                                    <p>Total Usuarios</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
+                                    <i class="ion ion-person-add"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>

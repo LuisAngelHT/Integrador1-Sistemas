@@ -41,7 +41,6 @@
 
                     <!-- logo grande (texto + icono en estado normal) -->
                     <span class="logo-lg">
-                        <img src="icono.png" alt="Logo" style="width:30px; height:30px; vertical-align:middle;">
                         <b>CITAS MEDICAS</b>
                     </span>
                 </a>
@@ -68,7 +67,6 @@
                                     <!-- The user image in the menu -->
                                     <li class="user-header">
                                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                                         <p>                    
                                             Bienvenido - ${usuario.nombre}
                                             <small>Usted es, ${usuario.rol.nombreRol} </small>
@@ -116,39 +114,34 @@
                         </li>
                         <li>
                             <a href="">
-                                <i class="fa fa-cart-arrow-down"></i> <span>Citas</span>
+                                <i class="glyphicon glyphicon-th-large"></i> <span>Citas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/ControladorPaciente?accion=listarPacientes">
+                                <i class="fa fa-users" aria-hidden="true"></i> <span>Pacientes</span>
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <i class="fa fa-area-chart"></i> <span>Pacientes</span>
+                                <i class="fa fa-user-md" aria-hidden="true"></i> <span>Profesionales</span>
                             </a>
                         </li>
-                        <li class="treeview">
-                            <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>Especialistas</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
+
+                        <li>
+                            <a href="">
+                                <i class="fa fa-hospital-o" aria-hidden="true"></i> <span>Especialidades</span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Profesionales</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Especialidades</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="glyphicon glyphicon-th-large"></i> <span>Horarios</span>
-                                    </a>
-                                </li>
-
-                            </ul>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-calendar" aria-hidden="true"></i> <span>Horarios</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-user" aria-hidden="true"></i> <span>Usuarios</span>
+                            </a>
                         </li>
                     </ul>
                     <!-- /.sidebar-menu -->
@@ -164,7 +157,7 @@
                                 <h3>GESTOR DE PACIENTES</h3>
                                 <hr>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalFormulario">
-                                    <i class="fa-solid fa-plus"></i>Nuevo
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
                                 </button>
                                 <br>
                                 <br>
@@ -194,7 +187,7 @@
                                     <input type="hidden" name="accion" value="listarPacientes">
                                 </form>
                                 <table class="table table-bordered table-striped mt-2">
-                                    <thead>
+                                    <thead style="background-color: #367FA9;color:white">
                                         <tr>
                                             <th>IDPACIENTE</th>
                                             <th>NOMBRE</th>
@@ -222,7 +215,7 @@
                                                     <a href="" class="btn-info btn-sm"> 
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a href="" class="btn btn-danger btn-sm"> 
+                                                    <a href="ControladorPaciente?accion=eliminar&idPaciente=${item.idPaciente}" class="btn btn-danger btn-sm"> 
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
@@ -269,7 +262,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title" id="modalLabel">Nuevo Empleado</h3>
+                            <h3 class="modal-title" id="modalLabel">Nuevo Paciente</h3>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

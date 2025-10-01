@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ControladorPaciente extends HttpServlet {
 
     private PacienteDAO Daopac = new PacienteDAO();
-    private final String pagListarPacientes = "/vistas/listarPacientes.jsp";
-    private final String pagPrincipal = "/vistas/vistaAdmin.jsp";
+    private final String pagListarPacientes = "/vistas/admin/listarPacientes.jsp";
+    private final String pagPrincipal = "/vistas/admin/vistaAdmin.jsp";
 
     // Constante local (puede estar en el DAO o aquí, pero debe ser consistente)
     private static final int REGISTROS_POR_PAGINA = 10;
@@ -37,6 +37,9 @@ public class ControladorPaciente extends HttpServlet {
                 break;
             case "registrar":
                 registrar(request, response); // Asumo que tienes este método implementado
+                break;
+            case "elliminar":
+                eliminar(request, response); // Asumo que tienes este método implementado
                 break;
             default:
                 listarPacientes(request, response);
@@ -109,6 +112,18 @@ public class ControladorPaciente extends HttpServlet {
         if (result > 0) {
             response.sendRedirect("ControladorPaciente?accion=listarPacientes");
         }
+    }
+    private void eliminar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        int idPaciente=Integer.parseInt(request.getParameter("idPaciente"));
+        int result=Daopac.eliminar(idPaciente);
+        if(result>0){
+            request.getSession().setAttribute("sucess", "Empleado con id "+idPaciente +" elimnado");
+        }else{
+            request.getSession().setAttribute("error",idPaciente);
+        }
+        response.sendRedirect("ControladorPaciente?accion=listarPacientes");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

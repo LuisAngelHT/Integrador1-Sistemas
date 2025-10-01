@@ -105,4 +105,16 @@ public class PacienteDAO extends conexion {
         }
         return result;
     }
+    public int eliminar(int idPaciente) {
+        int result = 0;
+        try (Connection cn = conexion.getConnection()) {
+            String sql = "DELETE FROM pacientes WHERE IDPaciente = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, idPaciente);
+            result = ps.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
 }

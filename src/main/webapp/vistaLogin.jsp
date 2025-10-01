@@ -8,140 +8,247 @@
         <title>Citas Médicas | Iniciar Sesión</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-        <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <!-- Font Awesome -->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-        <!-- Ionicons -->
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-        <!-- Theme style -->
         <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-        <!-- iCheck -->
         <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
-        <!-- Google Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        <!-- CSS personalizado -->
+        
         <link rel="stylesheet" href="css/custom.css">
     </head>
     <body class="hold-transition login-page">
 
         <div class="login-box">
-            <!-- Logo -->
             <div class="login-logo">
-    <img src="dist/img/LogoLogin.png" alt="Centro de Salud La Libertad" class="logo-img">
-    <h2 class="center-name">Centro de Salud La Libertad SJL</h2>
-</div>
+                <img src="dist/img/LogoLogin.png" alt="Centro de Salud La Libertad" class="logo-img">
+                <h2 class="center-name">Centro de Salud La Libertad SJL</h2>
+            </div>
 
-            <!-- Caja del login -->
             <div class="login-box-body">
                 <p class="login-box-msg">INICIAR SESIÓN</p>
 
-                <form id="loginForm" action="srvUsuario?accion=verificar" method="POST">
-                    <!-- Campo Email -->
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-exclamation-triangle"></i> ${error}
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty success}">
+                    <div class="alert alert-success" role="alert">
+                        <i class="fa fa-check-circle"></i> ${success}
+                    </div>
+                </c:if>
+
+                <form id="loginForm" action="srvUsuario?accion=verificar" method="POST" novalidate>
+                    
                     <div class="form-group has-feedback">
                         <div class="input-container">
-                            <input type="text" name="txtCorreo" id="txtCorreo" class="form-control" placeholder="Correo Electrónico">
-                            <!-- icono email (Bootstrap) -->
-                            <span class="fa fa-envelope form-control-feedback"></span>
+                            <input type="email" name="txtCorreo" id="txtCorreo" 
+                                   class="form-control" placeholder="Correo Electrónico"
+                                   aria-describedby="correo-error" required
+                                   value="<c:out value="${param.txtCorreo}"/>"> <%-- Retiene el valor --%>
+                            
+                            <span class="form-control-feedback" aria-hidden="true"><i class="fa fa-envelope"></i></span>
                         </div>
-                        <small id="correo-error" class="error-msg">Email requerido</small>
+                        <small id="correo-error" class="error-msg" role="alert">
+                            <i class="fa fa-exclamation-triangle"></i> Email requerido
+                        </small>
                     </div>
 
-                    <!-- Campo Password -->
                     <div class="form-group has-feedback">
                         <div class="input-container">
-                            <input type="password" name="txtPass" id="txtPass" class="form-control" placeholder="Contraseña">
-                            <!-- icono ojo -->
-                            <span class="toggle-password fa fa-eye"></span>
+                            <input type="password" name="txtPass" id="txtPass" 
+                                   class="form-control" placeholder="Contraseña"
+                                   aria-describedby="pass-error" required minlength="8">
+                            
+                            <span class="toggle-password fa fa-eye" 
+                                  aria-label="Mostrar/ocultar contraseña" 
+                                  role="button" tabindex="0"></span>
                         </div>
-                        <small id="pass-error" class="error-msg">La contraseña es incorrecta</small>
+                        <small id="pass-error" class="error-msg" role="alert">
+                            <i class="fa fa-exclamation-triangle"></i> Contraseña requerida (mínimo 8 caracteres)
+                        </small>
                     </div>
 
-
-
-                    <!-- Botón -->
                     <div class="row">
                         <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-login">INGRESAR</button>
+                            <button type="submit" class="btn btn-primary btn-login" id="btnLogin">
+                                INGRESAR
+                            </button>
                         </div>
                     </div>
                 </form>
+
+                <div class="social-auth-links text-center" style="margin-top: 20px;">
+                    <a href="#" class="text-center forgot-password">¿Olvidaste tu contraseña?</a>
+                </div>
             </div>
         </div>
 
-        <!-- Scripts -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="plugins/iCheck/icheck.min.js"></script>
 
         <script>
-            // ===== iCheck inicial =====
-            $(function () {
+            // Asegurarse de que el DOM esté completamente cargado antes de ejecutar JS
+            document.addEventListener("DOMContentLoaded", function() {
+                
+                // Elementos del formulario
+                const form = document.getElementById("loginForm");
+                const correo = document.getElementById("txtCorreo");
+                const pass = document.getElementById("txtPass");
+                const btn = document.getElementById("btnLogin");
+                const togglePassword = document.querySelector(".toggle-password");
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                let isSubmitting = false;
+                const originalBtnText = btn.innerHTML;
+                
+                // ===================================
+                // Funciones de Utilidad (Validación y Estado)
+                // ===================================
+
+                function showFieldError(field, errorElement, message) {
+                    field.classList.add("error");
+                    field.classList.remove("success");
+                    errorElement.innerHTML = '<i class="fa fa-exclamation-triangle"></i> ' + message;
+                    errorElement.style.display = "block";
+                }
+
+                function showFieldSuccess(field, errorElement) {
+                    field.classList.remove("error");
+                    field.classList.add("success");
+                    errorElement.style.display = "none";
+                }
+
+                function resetFormState() {
+                    btn.disabled = false;
+                    btn.classList.remove("loading");
+                    btn.innerHTML = originalBtnText;
+                    isSubmitting = false;
+                }
+                
+                // Función para cambiar la visibilidad de la contraseña
+                function togglePasswordVisibility() {
+                    if (pass.type === "password") {
+                        pass.type = "text";
+                        togglePassword.classList.remove("fa-eye");
+                        togglePassword.classList.add("fa-eye-slash");
+                        togglePassword.setAttribute("aria-label", "Ocultar contraseña");
+                    } else {
+                        pass.type = "password";
+                        togglePassword.classList.remove("fa-eye-slash");
+                        togglePassword.classList.add("fa-eye");
+                        togglePassword.setAttribute("aria-label", "Mostrar contraseña");
+                    }
+                }
+
+                // ===================================
+                // Validaciones
+                // ===================================
+
+                function validateEmail() {
+                    const correoError = document.getElementById("correo-error");
+                    if (correo.value.trim() === "") {
+                        showFieldError(correo, correoError, "Email requerido");
+                        return false;
+                    } else if (!emailRegex.test(correo.value)) {
+                        showFieldError(correo, correoError, "Formato de email inválido");
+                        return false;
+                    } else {
+                        showFieldSuccess(correo, correoError);
+                        return true;
+                    }
+                }
+
+                function validatePassword() {
+                    const passError = document.getElementById("pass-error");
+                    if (pass.value.length < 8) {
+                        showFieldError(pass, passError, "Contraseña requerida (mínimo 8 caracteres)");
+                        return false;
+                    } else {
+                        showFieldSuccess(pass, passError);
+                        return true;
+                    }
+                }
+
+                // ===================================
+                // Event Listeners
+                // ===================================
+                
+                // Toggle de Contraseña
+                if (togglePassword) {
+                    togglePassword.addEventListener("click", togglePasswordVisibility);
+                    togglePassword.addEventListener("keydown", function(e) {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            togglePasswordVisibility();
+                        }
+                    });
+                }
+                
+                // Validación en tiempo real (Blur y Input)
+                correo.addEventListener("blur", validateEmail);
+                correo.addEventListener("input", function() { if (correo.classList.contains("error")) validateEmail(); });
+
+                pass.addEventListener("blur", validatePassword);
+                pass.addEventListener("input", function() { if (pass.classList.contains("error")) validatePassword(); });
+
+                // Manejo del envío del formulario
+                form.addEventListener("submit", function (e) {
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        return;
+                    }
+
+                    const emailValid = validateEmail();
+                    const passValid = validatePassword();
+
+                    if (!emailValid || !passValid) {
+                        e.preventDefault();
+                        const firstError = form.querySelector(".error");
+                        if (firstError) {
+                            firstError.focus();
+                        }
+                        return;
+                    }
+
+                    // 1. Activar estado de carga (Loading)
+                    isSubmitting = true;
+                    btn.disabled = true;
+                    btn.classList.add("loading");
+                    btn.innerHTML = 'INGRESANDO'; 
+
+                    // 2. Timeout de seguridad para resetear el botón si hay problemas
+                    setTimeout(function() {
+                        if (isSubmitting) {
+                            console.warn("El envío excedió el tiempo de espera. Restableciendo formulario.");
+                            resetFormState();
+                        }
+                    }, 30000); 
+                });
+
+                // Inicializar el estado si hay errores del servidor al cargar la página
+                if (document.querySelector(".alert-danger")) {
+                    resetFormState();
+                }
+
+                // Auto-dismiss alerts después de 5 segundos (Usando jQuery)
+                setTimeout(function() {
+                    $(".alert").fadeOut(500, function() {
+                        $(this).remove(); 
+                    });
+                }, 5000);
+                
+                // Inicialización de iCheck (si lo usas)
                 $('input').iCheck({
                     checkboxClass: 'icheckbox_square-blue',
                     radioClass: 'iradio_square-blue',
                     increaseArea: '20%'
                 });
             });
-
-            // ===== Mostrar/Ocultar contraseña =====
-            document.querySelector(".toggle-password").addEventListener("click", function () {
-                let input = document.getElementById("txtPass");
-                if (input.type === "password") {
-                    input.type = "text";
-                    this.classList.remove("fa-eye");
-                    this.classList.add("fa-eye-slash");
-                } else {
-                    input.type = "password";
-                    this.classList.remove("fa-eye-slash");
-                    this.classList.add("fa-eye");
-                }
-            });
-
-            // ===== Validaciones y Loading =====
-            const form = document.getElementById("loginForm");
-            const correo = document.getElementById("txtCorreo");
-            const pass = document.getElementById("txtPass");
-            const btn = document.querySelector(".btn-login");
-
-            form.addEventListener("submit", function (e) {
-                let valido = true;
-
-                // Validación correo
-                if (correo.value.trim() === "") {
-                    correo.classList.add("error");
-                    correo.classList.remove("success");
-                    document.getElementById("correo-error").style.display = "block";
-                    valido = false;
-                } else {
-                    correo.classList.remove("error");
-                    correo.classList.add("success");
-                    document.getElementById("correo-error").style.display = "none";
-                }
-
-                // Validación contraseña
-                if (pass.value.length < 8) {
-                    pass.classList.add("error");
-                    pass.classList.remove("success");
-                    document.getElementById("pass-error").style.display = "block";
-                    valido = false;
-                } else {
-                    pass.classList.remove("error");
-                    pass.classList.add("success");
-                    document.getElementById("pass-error").style.display = "none";
-                }
-
-                if (!valido) {
-                    e.preventDefault();
-                    return;
-                }
-
-                // Loading en el botón
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Ingresando...';
-            });
         </script>
 
     </body>
 </html>
-
